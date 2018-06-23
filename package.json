@@ -1,0 +1,36 @@
+{
+  "name": "emailwidget",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "both": "concurrently \"cd client && yarn start\" \"npm run dev\"",
+    "clean": "rm -rf node_modules && rm -rf client/node_modules && rm -rf client/dist"
+  },
+  "dependencies": {
+    "bcrypt": "^2.0.1",
+    "body-parser": "^1.18.3",
+    "concurrently": "^3.6.0",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.3.0",
+    "morgan": "^1.9.0",
+    "pg-promise": "^8.4.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/philyoosays/emailwidget.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/philyoosays/emailwidget/issues"
+  },
+  "homepage": "https://github.com/philyoosays/emailwidget#readme",
+  "devDependencies": {
+    "nodemon": "^1.17.5"
+  }
+}
