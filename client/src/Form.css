@@ -1,0 +1,10 @@
+.formcontainer {
+  align-self: center;
+  width: 70vw;
+  height: 70vh;
+  margin: 15vh auto;
+  border-top: 2px solid lightgrey;
+  border-right: 2px solid grey;
+  border-bottom: 2px solid darkgrey;
+  border-left: 2px solid darkgrey;
+}

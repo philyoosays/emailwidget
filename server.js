@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(tokenService.receiveToken);
 
-app.use('/api', dataHRouter);
+app.use('/api', dataRouter);
 app.use('/auth', authRouter);
 
 
