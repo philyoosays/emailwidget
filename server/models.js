@@ -16,4 +16,11 @@ module.exports = {
       WHERE username = $1
       `, username);
   },
+
+  findOneCampaign(id) {
+    return db.one(`
+      SELECT * FROM campaign
+      WHERE id = $1
+      `, id)
+  }
 }

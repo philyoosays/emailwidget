@@ -28,7 +28,11 @@ class App extends React.Component {
         </header>
         <Switch>
           <Route
-            path="/"
+            path="/form/:id"
+            component={Form}
+          />
+          <Route
+            exact path="/"
             component={Form}
           />
         </Switch>

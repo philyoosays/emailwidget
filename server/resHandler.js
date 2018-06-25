@@ -10,7 +10,7 @@ module.exports = {
   },
 
   sendJSON(req,res) {
-    res.json(res.locals.museum || res.locals.museums);
+    res.json(res.locals.dataset);
   },
 
   sendAPI(req, res) {

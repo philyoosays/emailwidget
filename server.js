@@ -4,17 +4,18 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const path = require('path');
 
-const dataRouter = require('./server/router.js');
+const dataRouter = require('./server/router');
 const tokenService = require('./auth/TokenService');
 const authRouter = require('./auth/AuthRouter');
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3001;
 
 app.use(logger('dev'));
+app.use(express.static(path.join(__dirname, 'dist')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(tokenService.receiveToken);
+// app.use(tokenService.receiveToken);
 
 app.use('/api', dataRouter);
 app.use('/auth', authRouter);
