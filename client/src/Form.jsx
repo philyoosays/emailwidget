@@ -18,7 +18,7 @@ export default class Form extends React.Component {
       emailhtml: '',
       recipient: 'no email',
       blocked: false,
-      isMobile: true
+      isMobile: false
     }
     this.handleText = this.handleText.bind(this);
     this.handleSend = this.handleSend.bind(this);
@@ -45,17 +45,17 @@ export default class Form extends React.Component {
     let theData = {
       secret: process.env.REACT_APP_SECRET
     }
-    fetch('http://192.168.1.5:3001/api/campaign/1/', {
-      body: JSON.stringify(theData), // must match 'Content-Type' header
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, same-origin, *omit
-      // headers: {
-      //   'content-type': 'application/json'
-      // },
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      mode: 'cors', // no-cors, cors, *same-origin
-      redirect: 'follow', // manual, *follow, error
-      referrer: 'no-referrer', // *client, no-referrer
+    fetch('/api/campaign/1/', {
+      body: JSON.stringify(theData),
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'POST',
+      mode: 'cors',
+      redirect: 'follow',
+      referrer: 'no-referrer',
     })
       .then(response => response.json())
         .then(data => {
@@ -74,6 +74,23 @@ export default class Form extends React.Component {
         })
       })
 
+    // if(navigator.userAgent.toLowerCase().includes('android')
+    //   || navigator.userAgent.toLowerCase().includes('webos')
+    //   || navigator.userAgent.toLowerCase().includes('iphone')
+    //   || navigator.userAgent.toLowerCase().includes('ipad')
+    //   || navigator.userAgent.toLowerCase().includes('ipod')
+    //   || navigator.userAgent.toLowerCase().includes('blackBerry')
+    //   || navigator.userAgent.toLowerCase().includes('windows phone'))
+    // {
+    //   this.setState({
+    //     isMobile: true
+    //   })
+    // } else {
+    //   console.log('this is not mobile')
+    // }
+  }
+
+  detectMobile() {
     if(navigator.userAgent.toLowerCase().includes('android')
       || navigator.userAgent.toLowerCase().includes('webos')
       || navigator.userAgent.toLowerCase().includes('iphone')
@@ -91,46 +108,34 @@ export default class Form extends React.Component {
   }
 
   handleSend() {
-    let domain = this.state.email.split('@')
-    console.log('domain: ', domain)
-    if(this.state.isMobile === true) {
-      window.open(`mailto:${this.state.recipient}?subject=${this.state.subject}?body=${this.state.emailtext}`)
-    } else if(domain[1] === 'gmail.com') {
-      window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${this.state.recipient}&su=${this.state.subject}&body=${this.state.emailtext}`)
-    } else if(domain[1] === 'ymail.com' || domain === 'yahoo.com') {
-      window.open(`http://compose.mail.yahoo.com/?to=${this.state.recipient}&subject=${this.state.subject}&body=${this.state.emailtext}`)
+    let theData = {
+      secret: process.env.REACT_APP_SECRET,
+      fname: this.state.fname,
+      lname: this.state.lname,
+      email: this.state.email,
+      isMobile: this.state.isMobile
     }
-  }
-
-  detectMobile() {
-    // if( navigator.userAgent.match(/Android/i)
-    //   || navigator.userAgent.match(/webOS/i)
-    //   || navigator.userAgent.match(/iPhone/i)
-    //   || navigator.userAgent.match(/iPad/i)
-    //   || navigator.userAgent.match(/iPod/i)
-    //   || navigator.userAgent.match(/BlackBerry/i)
-    //   || navigator.userAgent.match(/Windows Phone/i)
-    // ){
-    //   this.setState({
-    //     isMobile: true
-    //   })
-    // } else {
-    //   console.log('this is not mobile')
-    // }
-    if(navigator.userAgent.toLowerCase().includes('android')
-      || navigator.userAgent.toLowerCase().includes('webos')
-      || navigator.userAgent.toLowerCase().includes('iphone')
-      || navigator.userAgent.toLowerCase().includes('ipad')
-      || navigator.userAgent.toLowerCase().includes('ipod')
-      || navigator.userAgent.toLowerCase().includes('blackBerry')
-      || navigator.userAgent.toLowerCase().includes('windows phone'))
-    {
-      this.setState({
-        isMobile: true
+    fetch('/api/email/1/', {
+      body: JSON.stringify(theData),
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'POST',
+      mode: 'cors',
+      redirect: 'follow',
+      referrer: 'no-referrer',
+    })
+    .then(response => response.json())
+      .then(data => {
+        if(data.isMobile === true || data.isEnterprise === true) {
+          window.location.href = data.sendemail;
+        } else {
+          window.open(data.sendemail)
+        }
       })
-    } else {
-      console.log('this is not mobile')
-    }
+
   }
 
   render() {
