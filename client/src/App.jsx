@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import TokenService from './TokenService';
 import Form from './Form';
+import Test from './Test';
 
 import './App.css';
 
@@ -33,7 +34,7 @@ class App extends React.Component {
           />
           <Route
             exact path="/"
-            component={Form}
+            component={Test}
           />
         </Switch>
       </div>

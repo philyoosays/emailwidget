@@ -12,19 +12,19 @@ export default class Form extends React.Component {
       lname: '',
       suffix: '',
       email: '',
-      campaignid: '',
+      // campaignid: '',
       subject: '',
       emailtext: '',
       emailhtml: '',
       recipient: 'no email',
       blocked: false,
-      isMobile: false
+      isMobile: true
     }
     this.handleText = this.handleText.bind(this);
     this.handleSend = this.handleSend.bind(this);
   }
 
-  handleText({ match }) {
+  handleText() {
     this.setState({
       // prefix: this.refs.prefix.value,
       fname: this.refs.fname.value,
@@ -32,7 +32,7 @@ export default class Form extends React.Component {
       lname: this.refs.lname.value,
       // suffix: this.refs.suffix.value,
       email: this.refs.email.value,
-      campaignid: match.params.id,
+      // campaignid: match.params.id,
       subject: this.refs.subject.value,
       emailtext: this.refs.emailtext.value,
       emailhtml: this.refs.emailtext
@@ -73,31 +73,63 @@ export default class Form extends React.Component {
           recipient: 'error happened'
         })
       })
+
+    if(navigator.userAgent.toLowerCase().includes('android')
+      || navigator.userAgent.toLowerCase().includes('webos')
+      || navigator.userAgent.toLowerCase().includes('iphone')
+      || navigator.userAgent.toLowerCase().includes('ipad')
+      || navigator.userAgent.toLowerCase().includes('ipod')
+      || navigator.userAgent.toLowerCase().includes('blackBerry')
+      || navigator.userAgent.toLowerCase().includes('windows phone'))
+    {
+      this.setState({
+        isMobile: true
+      })
+    } else {
+      console.log('this is not mobile')
+    }
   }
 
   handleSend() {
     let domain = this.state.email.split('@')
+    console.log('domain: ', domain)
     if(this.state.isMobile === true) {
-      window.open(`mailto:${this.state.recipient}`)
-    } else {
-      this.setState({
-        isMobile: 'Not mobile'
-      })
+      window.open(`mailto:${this.state.recipient}?subject=${this.state.subject}?body=${this.state.emailtext}`)
+    } else if(domain[1] === 'gmail.com') {
+      window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${this.state.recipient}&su=${this.state.subject}&body=${this.state.emailtext}`)
+    } else if(domain[1] === 'ymail.com' || domain === 'yahoo.com') {
+      window.open(`http://compose.mail.yahoo.com/?to=${this.state.recipient}&subject=${this.state.subject}&body=${this.state.emailtext}`)
     }
   }
 
   detectMobile() {
-    if( navigator.userAgent.match(/Android/i)
-      || navigator.userAgent.match(/webOS/i)
-      || navigator.userAgent.match(/iPhone/i)
-      || navigator.userAgent.match(/iPad/i)
-      || navigator.userAgent.match(/iPod/i)
-      || navigator.userAgent.match(/BlackBerry/i)
-      || navigator.userAgent.match(/Windows Phone/i)
-    ){
+    // if( navigator.userAgent.match(/Android/i)
+    //   || navigator.userAgent.match(/webOS/i)
+    //   || navigator.userAgent.match(/iPhone/i)
+    //   || navigator.userAgent.match(/iPad/i)
+    //   || navigator.userAgent.match(/iPod/i)
+    //   || navigator.userAgent.match(/BlackBerry/i)
+    //   || navigator.userAgent.match(/Windows Phone/i)
+    // ){
+    //   this.setState({
+    //     isMobile: true
+    //   })
+    // } else {
+    //   console.log('this is not mobile')
+    // }
+    if(navigator.userAgent.toLowerCase().includes('android')
+      || navigator.userAgent.toLowerCase().includes('webos')
+      || navigator.userAgent.toLowerCase().includes('iphone')
+      || navigator.userAgent.toLowerCase().includes('ipad')
+      || navigator.userAgent.toLowerCase().includes('ipod')
+      || navigator.userAgent.toLowerCase().includes('blackBerry')
+      || navigator.userAgent.toLowerCase().includes('windows phone'))
+    {
       this.setState({
         isMobile: true
       })
+    } else {
+      console.log('this is not mobile')
     }
   }
 
