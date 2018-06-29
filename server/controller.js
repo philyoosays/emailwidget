@@ -42,21 +42,53 @@ module.exports = {
   },
 
   updateMessageText(req, res, next) {
-    res.locals.dataset.emailtext = res.locals.dataset.emailtext.split('$$FNAME').join(`${req.body.fname}`);
-    res.locals.dataset.emailtext = res.locals.dataset.emailtext.split('$$LNAME').join(req.body.lname);
+    res.locals.dataset.emailtext = res.locals.dataset.emailtext.split('#FIRST_NAME#').join(req.body.fname);
+    res.locals.dataset.emailtext = res.locals.dataset.emailtext.split('#LAST_NAME#').join(req.body.lname);
+    // res.locals.dataset.emailtext = res.locals.dataset.emailtext.split('%0A%0D').join('$nsbps;')
     next();
   },
 
   makeSendLink(req, res, next) {
-    let domain = req.body.email.split('@');
+    let domain = req.body.email.toLowerCase().split('@');
+
     if(req.body.isMobile === true || res.locals.dataset.isEnterprise === true) {
       res.locals.dataset.sendemail = `mailto:${res.locals.dataset.recipient}&subject=${res.locals.dataset.subject}&body=${res.locals.dataset.emailtext}`;
-      res.locals.dataset.isMobile = true;
-    } else if(domain[1] === 'gmail.com') {
-      res.locals.dataset.sendemail = `https://mail.google.com/mail/?view=cm&fs=1&to=${res.locals.dataset.recipient}&su=${res.locals.dataset.subject}&body=${res.locals.dataset.emailtext}`;
-    } else if(domain[1] === 'ymail.com' || domain === 'yahoo.com') {
+      res.locals.dataset.isMobile = req.body.isMobile;
+      res.locals.dataset.isEnterprise = req.body.isEnterprise;
+
+    } else if(domain[1].includes('gmail')) {
+      res.locals.dataset.sendemail = `https://mail.google.com/mail/u/${req.body.email}/?view=cm&fs=1&to=${res.locals.dataset.recipient}&su=${res.locals.dataset.subject}&body=${res.locals.dataset.emailtext}&bcc=philyoomail@gmail.com`;
+
+    } else if(domain[1].includes('ymail') || domain[1].includes('yahoo') || domain[1].includes('rocketmail')) {
+      res.locals.dataset.emailtext = res.locals.dataset.emailtext.split('%0A%0D').join('%0D%0D%0D')
       res.locals.dataset.sendemail = `http://compose.mail.yahoo.com/?to=${res.locals.dataset.recipient}&subject=${res.locals.dataset.subject}&body=${res.locals.dataset.emailtext}`;
+
+    } else if(domain[1].includes('aol')) {
+      res.locals.dataset.sendemail = `http://webmail.aol.com/Mail/ComposeMessage.aspx?to=${res.locals.dataset.recipient}&subject=${res.locals.dataset.subject}&body=${res.locals.dataset.emailtext}`;
+
+    } else if(domain[1].includes('hotmail') || domain[1].includes('live.co') || domain[1].includes('outlook') || domain[1].includes('msn.')) {
+      res.locals.dataset.sendemail = `https://outlook.live.com/owa/#subject=${res.locals.dataset.subject}&body=${res.locals.dataset.emailtext}&to=${res.locals.dataset.recipient}&path=%2fmail%2faction%2fcompose`;
+
+    } else {
+      res.locals.dataset.sendemail = `mailto:${res.locals.dataset.recipient}&subject=${res.locals.dataset.subject}&body=${res.locals.dataset.emailtext}`;
     }
     next();
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

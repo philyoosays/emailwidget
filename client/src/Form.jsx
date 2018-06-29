@@ -15,33 +15,20 @@ export default class Form extends React.Component {
       // campaignid: '',
       subject: '',
       emailtext: '',
-      emailhtml: '',
+      emailtextshow: '',
+      body: [],
+      fnameindex: [],
+      lnameindex: [],
       recipient: 'no email',
       blocked: false,
       isMobile: false
     }
     this.handleText = this.handleText.bind(this);
     this.handleSend = this.handleSend.bind(this);
-  }
+    this.updateBody = this.updateBody.bind(this);
 
-  handleText() {
-    this.setState({
-      // prefix: this.refs.prefix.value,
-      fname: this.refs.fname.value,
-      // mname: this.refs.mname.value,
-      lname: this.refs.lname.value,
-      // suffix: this.refs.suffix.value,
-      email: this.refs.email.value,
-      // campaignid: match.params.id,
-      subject: this.refs.subject.value,
-      emailtext: this.refs.emailtext.value,
-      emailhtml: this.refs.emailtext
-    })
-  }
+    this.detectMobile();
 
-  componentDidMount() {
-    console.log('secret: ', process.env.REACT_APP_SECRET)
-    this.detectMobile()
     let theData = {
       secret: process.env.REACT_APP_SECRET
     }
@@ -60,12 +47,17 @@ export default class Form extends React.Component {
       .then(response => response.json())
         .then(data => {
           console.log('data', data)
+          data.emailtext = data.emailtext.split('%0A%0D').join('\n\r')
+          // let body = data.emailtext.split(/(\#[A-Z]\w+\#)/gi);
+          // let body = data.emailtext.split(/(\$[A-Z]\w+\$)/gi);
           this.setState({
             subject: data.subject,
             recipient: data.recipient,
             emailtext: data.emailtext,
-            emailhtml: data.emailhtml
+            emailtextshow: data.emailtext,
+            body: data.emailtext.split('#'),
           })
+          console.log('body', data.emailtext.split('#'))
         })
       .catch(err => {
         console.log('thisiserror', err)
@@ -73,21 +65,59 @@ export default class Form extends React.Component {
           recipient: 'error happened'
         })
       })
+  }
 
-    // if(navigator.userAgent.toLowerCase().includes('android')
-    //   || navigator.userAgent.toLowerCase().includes('webos')
-    //   || navigator.userAgent.toLowerCase().includes('iphone')
-    //   || navigator.userAgent.toLowerCase().includes('ipad')
-    //   || navigator.userAgent.toLowerCase().includes('ipod')
-    //   || navigator.userAgent.toLowerCase().includes('blackBerry')
-    //   || navigator.userAgent.toLowerCase().includes('windows phone'))
-    // {
-    //   this.setState({
-    //     isMobile: true
-    //   })
-    // } else {
-    //   console.log('this is not mobile')
-    // }
+  handleText() {
+    this.setState({
+      // prefix: this.refs.prefix.value,
+      fname: this.refs.fname.value,
+      // mname: this.refs.mname.value,
+      lname: this.refs.lname.value,
+      // suffix: this.refs.suffix.value,
+      email: this.refs.email.value,
+      // campaignid: match.params.id,
+      subject: this.refs.subject.value,
+      emailtext: this.refs.emailtext.value,
+    })
+    setTimeout(() => {
+      this.updateBody();
+    }, 200)
+  }
+
+  updateBody() {
+    let body = this.state.body;
+    this.state.fnameindex.forEach(element => {
+      body[element] = this.state.fname;
+    })
+    this.state.lnameindex.forEach(element => {
+      body[element] = this.state.lname;
+    })
+    body = body.join('');
+    this.setState({
+      emailtextshow: body
+    })
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.mapNames()
+    }, 200)
+  }
+
+  mapNames() {
+    let first = [];
+    let last = [];
+    this.state.body.forEach((element, index) => {
+      if(element === 'FIRST_NAME') {
+        first.push(index)
+      } else if(element === 'LAST_NAME') {
+        last.push(index)
+      }
+    })
+    this.setState({
+      fnameindex: first,
+      lnameindex: last
+    })
   }
 
   detectMobile() {
@@ -133,9 +163,11 @@ export default class Form extends React.Component {
           window.location.href = data.sendemail;
         } else {
           window.open(data.sendemail)
+          // todo....
+          // fix backend fetch maybe axios
+          // how do I input regex chars to emails
         }
       })
-
   }
 
   render() {
@@ -209,9 +241,9 @@ export default class Form extends React.Component {
           </div>
           <div>
             <textarea
-              className="somethingtwo"
+              className="emailbody"
               ref="emailtext"
-              value={this.state.emailtext}
+              value={this.state.emailtextshow}
               onInput={() => {this.handleText()}}
             />
           </div>
