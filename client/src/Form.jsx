@@ -12,7 +12,7 @@ export default class Form extends React.Component {
       lname: '',
       suffix: '',
       email: '',
-      // campaignid: '',
+      // campaignid: 0,
       subject: '',
       emailtext: '',
       emailtextshow: '',
@@ -32,7 +32,8 @@ export default class Form extends React.Component {
     let theData = {
       secret: process.env.REACT_APP_SECRET
     }
-    fetch('/api/campaign/1/', {
+
+    fetch(`/api/campaign/${this.props.match.params.id}/`, {
       body: JSON.stringify(theData),
       cache: 'no-cache',
       credentials: 'same-origin',
@@ -46,7 +47,6 @@ export default class Form extends React.Component {
     })
       .then(response => response.json())
         .then(data => {
-          console.log('data', data)
           data.emailtext = data.emailtext.split('%0A%0D').join('\n\r')
           // let body = data.emailtext.split(/(\#[A-Z]\w+\#)/gi);
           // let body = data.emailtext.split(/(\$[A-Z]\w+\$)/gi);
@@ -57,12 +57,11 @@ export default class Form extends React.Component {
             emailtextshow: data.emailtext,
             body: data.emailtext.split('#'),
           })
-          console.log('body', data.emailtext.split('#'))
         })
       .catch(err => {
         console.log('thisiserror', err)
         this.setState({
-          recipient: 'error happened'
+          recipient: 'Campaign does not exist'
         })
       })
   }

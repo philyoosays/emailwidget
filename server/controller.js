@@ -1,5 +1,5 @@
 require('dotenv').config();
-const http = require('http');
+const axios = require('axios');
 const model = require('./models');
 
 module.exports = {
@@ -26,22 +26,30 @@ module.exports = {
   },
 
   isEnterprise(req, res, next) {
-    fetch(`https://api.trumail.io/v2/lookups/json?email=${req.body.email}&token=${process.env.MAILAPI}`)
-      .then(response => response.json())
-        .then(data => {
-          if(data.free === false) {
-            res.locals.dataset.isEnterprise = true
-            next();
-          } else if(data.hasOwnProperty('message')) {
-            next();
-          }
-        })
+    console.log('here')
+    axios.get(`https://api.trumail.io/v2/lookups/json?email=${req.body.email}&token=${process.env.MAILAPI}`)
+      .then(data => {
+        console.log('is it? ', data.data.free)
+        console.log('is it? ', typeof data.data.free)
+        if(data.data.free === false) {
+          console.log('here')
+          res.locals.dataset.isEnterprise = true
+          console.log('is enterprise')
+          next();
+        } else if(data.data.hasOwnProperty('message')) {
+          console.log('is not enterprise')
+          next();
+        } else {
+          next()
+        }
+      })
       .catch(error => {
         next(error)
       })
   },
 
   updateMessageText(req, res, next) {
+    console.log('here;')
     res.locals.dataset.emailtext = res.locals.dataset.emailtext.split('#FIRST_NAME#').join(req.body.fname);
     res.locals.dataset.emailtext = res.locals.dataset.emailtext.split('#LAST_NAME#').join(req.body.lname);
     // res.locals.dataset.emailtext = res.locals.dataset.emailtext.split('%0A%0D').join('$nsbps;')

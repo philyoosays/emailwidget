@@ -53,6 +53,7 @@
   background: #3C80E0;
   color: white;
   padding: 0 30px;
+  border-bottom: 2px solid white;
 }
 
 .header > * {
