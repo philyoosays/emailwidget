@@ -10,7 +10,8 @@
     "both": "concurrently \"cd client && REACT_APP_SECRET=handshakepassed10314 yarn start\" \"npm run dev\"",
     "clean": "rm -rf node_modules && rm -rf client/node_modules && rm -rf client/dist",
     "react-install": "cd client && yarn install",
-    "installer": "yarn install && npm run react-install"
+    "installer": "yarn install && npm run react-install",
+    "build": "cd client && react-scripts build"
   },
   "dependencies": {
     "bcrypt": "^2.0.1",

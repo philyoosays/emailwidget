@@ -1,87 +1,97 @@
 .formcontainer {
   align-self: center;
-  width: 70vw;
+  width: 50vw;
   height: 70vh;
   margin: 15vh auto;
   border-top: 2px solid lightgrey;
   border-right: 2px solid grey;
   border-bottom: 2px solid darkgrey;
   border-left: 2px solid darkgrey;
-  display: flex;
+  background: #FFED66;
 }
 
-.personname {
+.content {
+  width: 75%;
   margin: 0 auto;
-  border: 2px solid red;
-  display: flex;
+  /*border: 2px solid orange;*/
 }
 
-.personlabel {
-  margin: 0 auto;
-  border: 2px solid red;
-}
-
-.inline > * {
+.personname > *, .personemail > * {
   display: inline-block;
 }
 
-.flexone {
-  flex: 1;
-}
-
-.flextwo {
-  flex: 2;
-}
-
-.flexthree {
-  flex: 3;
-}
-
-.flexfour {
-  flex: 4;
-}
-
-input[type="text"] {
-  display: block;
-}
-
-section > h1 {
-  margin: 20px 0px;
-  text-align: right;
-}
-
-.inputname {
-  border-top: 0px;
-  border-right: 0px;
-  border-bottom: 4px solid black;
-  border-left: 4px solid black;
-  width: 90%;
-  margin: 22px 5px;
+.personemail, .emailheader {
+  /*border: 2px solid orange;*/
+  align-content: left;
+  width: 70%;
+  margin: 0 auto;
 }
 
 .emailbody {
-  width: 90%;
-  height: 40vh;
+  width: 70%;
+  height: 200px;
+  margin: 0 auto;
+  /*border: 2px solid blue;*/
 }
 
+.emailtext {
+  width: 100%;
+  height: 100%;
+  resize: none;
+  border-right: 2px solid darkgrey;
+  border-top: 2px solid silver;
+  border-left: 2px solid lightgrey;
+  border-bottom: 2px solid darkgrey;
+}
 
+.email {
+  /*border: 2px solid red;*/
+}
 
+.sendemail {
+  margin: 20px auto;
+  width: 200px;
+  height: 35px;
+  color: white;
+  background: #3c80e0;
+  align-self: center;
+}
 
+input {
+  outline: none;
+  border: none;
 
+}
 
+input[type="text"], input[type="email"] {
+  margin-left: 5px;
+  margin-right: 20px;
+  height: 20px;
+  position: relative;
+  bottom: 4px;
+  border-left: 2px solid black;
+  border-bottom: 2px solid black;
+}
 
+input[type="email"] {
+  width: 70%;
+}
 
+h3 {
+  font-weight: 300;
+}
 
+textarea {
+  font-size: 12px;
+}
 
-
-
-
-
-
-
-
-
-
+.emailbutton {
+  font-weight: 300;
+  padding: 8px 20px;
+  text-align: center;
+  border-right: 2px solid lightgrey;
+  border-bottom: 3px solid grey;
+}
 
 
 

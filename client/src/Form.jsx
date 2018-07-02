@@ -76,7 +76,7 @@ export default class Form extends React.Component {
       // suffix: this.refs.suffix.value,
       email: this.refs.email.value,
       // campaignid: match.params.id,
-      subject: this.refs.subject.value,
+      // subject: this.refs.subject.value,
       emailtext: this.refs.emailtext.value,
     })
     setTimeout(() => {
@@ -173,87 +173,71 @@ export default class Form extends React.Component {
   render() {
     return(
       <div className="formcontainer">
-        <section className="personname flexone">
-          <section className="personlabel flextwo">
-            <h1>First Name</h1>
-            <h1>Last Name</h1>
-            <h1>Email</h1>
-          </section>
-          <section className="personlabel flexthree">
-            {/*
-              <input
-              className="inputname flexone"
-              type="text"
-              ref="prefix"
-              placeholder="Prefix"
-              onInput={() => {this.handleText()}}
-            /> */}
+        <div className="content">
+          <section className="personname">
+            <h3>First Name</h3>
             <input
-              className="inputname flexone"
               type="text"
+              name="fname"
               ref="fname"
-              placeholder="First Name"
+              className=""
+              placeholder="first name"
               onInput={() => {this.handleText()}}
             />
-            {/*<input
-              className="inputname flexone"
-              type="text"
-              ref="mname"
-              placeholder="Middle Name"
-              onInput={() => {this.handleText()}}
-            />*/}
+            <h3>Last Name</h3>
             <input
-              className="inputname flexone"
               type="text"
+              name="lname"
               ref="lname"
-              placeholder="Last Name"
-              onInput={() => {this.handleText()}}
-            />
-            {/*<input
-              className="inputname flexone"
-              type="text"
-              ref="suffix"
-              placeholder="Suffix"
-              onInput={() => {this.handleText()}}
-            />*/}
-            <input
-              className="inputname flexone"
-              type="email"
-              ref="email"
-              placeholder="Email"
+              className=""
+              placeholder="last name"
               onInput={() => {this.handleText()}}
             />
           </section>
-
-        </section>
-        <section className="personlabel flexone">
-          <div>
-            <span>To: </span><span>{this.state.recipient}</span>
-          </div>
-          <div className="inline">
-            <span>Subject:</span>
-            <input className="something"
-              type="text"
-              ref="subject"
-              value={this.state.subject}
-              onInput={() => {this.handleText()}}
-            />
-          </div>
-          <div>
-            <textarea
-              className="emailbody"
-              ref="emailtext"
-              value={this.state.emailtextshow}
-              onInput={() => {this.handleText()}}
-            />
-          </div>
-          <div>
-            <button onClick={() => {this.handleSend()}}>SUBMIT</button>
-            <p>{this.state.isMobile}</p>
-            <p>This is {this.state.isMobile}</p>
-          </div>
-        </section>
+          <section className="email">
+            <div className="personemail">
+              <h3>From: </h3>
+              <input
+                type="email"
+                name="email"
+                ref="email"
+                className=""
+                placeholder="your email"
+                onInput={() => {this.handleText()}}
+              />
+            </div>
+            <div className="emailheader">
+              <p>To: {this.state.recipient}</p>
+              <p>Subject: {this.state.subject}</p>
+            </div>
+            <div className="emailbody">
+              <textarea
+                className="emailtext"
+                ref="emailtext"
+                value={this.state.emailtextshow}
+                onInput={() => {this.handleText()}}
+              />
+            </div>
+          </section>
+          <section className="sendemail">
+            <p className="emailbutton">Send Email</p>
+          </section>
+        </div>
       </div>
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
