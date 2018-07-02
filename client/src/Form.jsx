@@ -173,7 +173,7 @@ export default class Form extends React.Component {
   render() {
     return(
       <div className="formcontainer">
-        <div className="content">
+        <section className="header">
           <section className="personname">
             <h3>First Name</h3>
             <input
@@ -206,9 +206,12 @@ export default class Form extends React.Component {
                 onInput={() => {this.handleText()}}
               />
             </div>
+          </section>
+        </section>
+        <div className="content">
             <div className="emailheader">
-              <p>To: {this.state.recipient}</p>
-              <p>Subject: {this.state.subject}</p>
+              <p><span>To:</span> {this.state.recipient}</p>
+              <p><span>Subject:</span> {this.state.subject}</p>
             </div>
             <div className="emailbody">
               <textarea
@@ -218,9 +221,11 @@ export default class Form extends React.Component {
                 onInput={() => {this.handleText()}}
               />
             </div>
-          </section>
           <section className="sendemail">
-            <p className="emailbutton">Send Email</p>
+            <p
+              className="emailbutton"
+              onClick={() => {this.handleSend()}}
+            >Send Email</p>
           </section>
         </div>
       </div>

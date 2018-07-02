@@ -7,7 +7,8 @@
   border-right: 2px solid grey;
   border-bottom: 2px solid darkgrey;
   border-left: 2px solid darkgrey;
-  background: #FFED66;
+  /*background: #FFED66;*/
+  background: lightgrey;
 }
 
 .content {
@@ -48,6 +49,16 @@
   /*border: 2px solid red;*/
 }
 
+.header {
+  background: #3C80E0;
+  color: white;
+  padding: 0 30px;
+}
+
+.header > * {
+  text-align: center;
+}
+
 .sendemail {
   margin: 20px auto;
   width: 200px;
@@ -77,7 +88,7 @@ input[type="email"] {
   width: 70%;
 }
 
-h3 {
+h3, p {
   font-weight: 300;
 }
 
@@ -91,6 +102,7 @@ textarea {
   text-align: center;
   border-right: 2px solid lightgrey;
   border-bottom: 3px solid grey;
+  cursor: pointer;
 }
 
 
