@@ -1,10 +1,10 @@
-DROP DATABASE emailwidget;
-CREATE DATABASE emailwidget;
+-- DROP DATABASE emailwidget;
+-- CREATE DATABASE emailwidget;
 
-\c emailwidget;
+-- \c emailwidget;
 
-DROP TABLE IF EXISTS contact;
-DROP TABLE IF EXISTS block_lexicon;
+-- DROP TABLE IF EXISTS contact;
+-- DROP TABLE IF EXISTS block_lexicon;
 
 CREATE TABLE campaign (
   id SERIAL PRIMARY KEY,
