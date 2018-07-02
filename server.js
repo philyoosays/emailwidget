@@ -12,13 +12,17 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(logger('dev'));
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(tokenService.receiveToken);
 
 app.use('/api', dataRouter);
 app.use('/auth', authRouter);
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
 
 
 // app.post('/', (req, res) => {
