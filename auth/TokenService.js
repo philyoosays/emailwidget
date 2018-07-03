@@ -8,18 +8,26 @@ module.exports = {
         payload,
         process.env.SERVER_SECRET,
         {
-        expiresIn: '1h',
-          issuer:    'Group DALP',
+          expiresIn: '8h',
+          issuer:    'PhilYoo',
         },
         (err, data) => err ? reject(err) : resolve(data),
       ),
     );
   },
 
-  verify(req, res) {
-    res.json(jwt.verify(req.body.token,
+  async verify(req, res, next) {
+    let payload = await jwt.verify(
+      req.body.token,
       process.env.SERVER_SECRET
-    ))
+    );
+    if(payload.hasOwnProperty('org')) {
+      res.locals.payload = payload;
+      next();
+    } else {
+      console.log('invalid token signature')
+      res.json({credentials: false})
+    }
   },
 
   receiveToken(req, res, next) {

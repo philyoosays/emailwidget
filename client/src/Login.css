@@ -1,0 +1,32 @@
+section.logincontainer {
+  width: 50%;
+  margin: 35vh auto;
+}
+
+.loginset {
+  /*border: 2px solid red;*/
+  display: flex;
+  justify-content: center;
+}
+
+.loginset > *{
+  display: inline-block;
+  margin: 5px;
+}
+
+.loginset > h3 {
+  color: white;
+  width: 75px;
+  text-align: right;
+  font-size: 14px;
+  padding-top: 8px;
+}
+
+.username, .password {
+  width: 150px;
+}
+
+section.sendemail {
+  margin: 0;
+}
+

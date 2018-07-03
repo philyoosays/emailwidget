@@ -1,0 +1,41 @@
+section.regcontainer {
+  width: 50%;
+  margin: 15vh auto;
+}
+
+.regset {
+  display: flex;
+  justify-content: center;
+  /*border: 2px solid red;*/
+}
+
+.regset > * {
+  margin: 5px;
+}
+
+.regset > h3 {
+  color: white;
+  width: 100px;
+  text-align: right;
+  font-size: 14px;
+  padding-top: 8px;
+}
+
+.regset > span {
+  padding: 0 5px;
+}
+
+.regset > input[type="text"], .regset > input[type="password"] {
+  position: relative;
+  top: 0px;
+  width: 175px;
+}
+
+.sendreg {
+  display: flex;
+  justify-content: center;
+}
+
+.orgfield {
+  background: grey;
+}

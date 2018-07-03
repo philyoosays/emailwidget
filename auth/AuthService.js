@@ -9,7 +9,7 @@ module.exports = {
     try {
       const user = await model.findOneUser(req.body.username);
       res.locals.user = user;
-      res.locals.ispassgood = await bcrypt.compare(req.body.password, user[0].password_digest);
+      res.locals.ispassgood = await bcrypt.compare(req.body.password, user[0].pass_digest);
       next()
     } catch (err) {
       console.error(err);
@@ -21,7 +21,7 @@ module.exports = {
     await bcrypt.hash(password, 11)
       .then( (hash) => {
         res.locals.user = req.body;
-        res.locals.user.password_digest = hash;
+        res.locals.user.pass_digest = hash;
         next();
       })
       .catch( (err) => {
@@ -29,13 +29,49 @@ module.exports = {
       })
   },
 
+  validRegistrant(req, res, next) {
+    model.findPreAuthUser(req.body.username)
+      .then(data => {
+        if(data.length === 0 || data[0].taken === true) {
+          res.json({
+            valid: false,
+            taken: data[0].taken
+          })
+        } else {
+          res.locals.dataset = {
+            valid: true,
+            org: data[0].org,
+            email: data[0].email
+          }
+          next();
+        }
+      })
+  },
+
+  markTaken(req, res, next) {
+    model.markPreAuthTaken(res.locals.dataset.email)
+    .then(data => {
+      next()
+    })
+    .catch(err => {
+      next(err)
+    })
+  },
+
   doesUserExist(req, res, next) {
+    req.body.username = req.body.username.toLowerCase();
     model.findOneUser(req.body.username)
       .then(data => {
-        if(data.length === 0){
+        if(data.length !== 0){
+          res.locals.dataset = {
+            userExists: true
+          }
           next();
         } else {
-          res.send('User already exists');
+          res.locals.dataset = {
+            userExists: false
+          }
+          next()
         }
       })
       .catch(err => {
@@ -59,7 +95,7 @@ module.exports = {
       return next({});
     }
     TokenService.makeToken({
-      user_id: res.locals.user[0].user_id,
+      org: res.locals.user[0].org,
     })
       .then((token) => {
         res.locals.token = token;

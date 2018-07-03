@@ -144,7 +144,7 @@ export default class Form extends React.Component {
       email: this.state.email,
       isMobile: this.state.isMobile
     }
-    fetch('/api/email/1/', {
+    fetch(`/api/email/${this.props.match.params.id}/`, {
       body: JSON.stringify(theData),
       cache: 'no-cache',
       credentials: 'same-origin',

@@ -4,7 +4,6 @@ const model = require('./models');
 
 module.exports = {
   verifySite(req, res, next) {
-    console.log('ami running?', req.body)
     if(req.body.secret === process.env.REACT_APP_SECRET) {
       console.log('authorized api hit')
       next()
@@ -77,6 +76,19 @@ module.exports = {
       res.locals.dataset.sendemail = `mailto:${res.locals.dataset.recipient}&subject=${res.locals.dataset.subject}&body=${res.locals.dataset.emailtext}`;
     }
     next();
+  },
+
+  saveFormUser()
+
+  getAllCampaigns(req, res, next) {
+    model.findAllCampaigns(res.locals.payload.org)
+      .then(data => {
+        res.locals.dataset = data;
+        next()
+      })
+      .catch(err => {
+        next(err)
+      })
   }
 }
 

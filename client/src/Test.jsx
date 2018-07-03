@@ -1,5 +1,7 @@
 import React from 'react';
 
+import TokenService from './TokenService';
+
 export default class Test extends React.Component {
   constructor(props) {
     super(props);
@@ -9,6 +11,22 @@ export default class Test extends React.Component {
   }
 
   componentDidMount() {
+    let token = TokenService.read()
+    fetch('/auth/token', {
+      body: JSON.stringify({
+        secret: process.env.REACT_APP_SECRET,
+        token: token
+      }),
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'POST'
+    })
+    .then(response => response.json())
+      .then(data => {
+        console.log('the token data is',data)
+      })
+
     if(navigator.userAgent.toLowerCase().includes('android')
       || navigator.userAgent.toLowerCase().includes('webos')
       || navigator.userAgent.toLowerCase().includes('iphone')
