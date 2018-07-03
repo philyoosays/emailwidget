@@ -41,9 +41,11 @@ module.exports = {
 
   findAllCampaigns(org) {
     return db.any(`
-      SELECT * FROM campaign
-      WHERE org = $1
-      ORDER BY created DESC
+      SELECT campaign.*, COUNT(contact.id)
+      FROM campaign JOIN contact
+      ON campaign.id = contact.campaignid
+      GROUP BY campaign.id
+      ORDER BY campaign.created DESC
       `, org);
   },
 
@@ -55,6 +57,10 @@ module.exports = {
       ($/fname/, $/lname/, $/email/, $/campaignid/, $/org/)
       `, data);
   },
+
+  countOfSigners(campaign) {
+    return d
+  }
 }
 
 

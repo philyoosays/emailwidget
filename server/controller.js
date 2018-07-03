@@ -78,7 +78,22 @@ module.exports = {
     next();
   },
 
-  saveFormUser()
+  saveFormUser(req, res, next) {
+    let theData = {
+      fname: req.body.fname,
+      lname: req.body.lname,
+      email: req.body.email,
+      campaignid: parseInt(req.params.id),
+      org: res.locals.dataset.org
+    }
+    model.saveFormUser(theData)
+      .then(data => {
+        next();
+      })
+      .catch(err => {
+        next(err)
+      })
+  },
 
   getAllCampaigns(req, res, next) {
     model.findAllCampaigns(res.locals.payload.org)
@@ -88,6 +103,13 @@ module.exports = {
       })
       .catch(err => {
         next(err)
+      })
+  },
+
+  numberOfSigners(req, res, next) {
+    model.countOfSigners(res.locals.dataset.campaignid)
+      .then(data => {
+        console.log('data', data)
       })
   }
 }

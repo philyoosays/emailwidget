@@ -64,7 +64,7 @@ VALUES
 INSERT INTO campaign
 (org, name, recipient, subject, emailtext)
 VALUES
-('SFLA', 'Mail Congressman', 'philyoo@ymail.com', 'Please do what we want',
+('admin', 'Mail Congressman', 'philyoo@ymail.com', 'Please do what we want',
 'We will bombard you with emails. I am #FIRST_NAME#.%0A%0DHa ha ha.%0A%0DYou will bend under our will because we are mighty and you are not.%0A%0DWith Love, %0A%0D#FIRST_NAME# #LAST_NAME#');
 
 INSERT INTO block_lexicon (word)

@@ -27,6 +27,7 @@ router.route('/email/:id')
     // controller.isEnterprise,
     controller.updateMessageText,
     controller.makeSendLink,
+    controller.saveFormUser,
     resHandler.sendJSON
   )
 

@@ -22,6 +22,7 @@ module.exports = {
       process.env.SERVER_SECRET
     );
     if(payload.hasOwnProperty('org')) {
+      console.log('good token')
       res.locals.payload = payload;
       next();
     } else {

@@ -38,6 +38,8 @@ export default class AdminPanel extends React.Component {
             <h2>{element.name}</h2>
             <p>Recipient: {element.recipient}</p>
             <p>Created: {element.created.slice(0,10)}</p>
+            <p>{element.count} Responses</p>
+            <hr />
           </article>
         );
       })
