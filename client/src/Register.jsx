@@ -41,7 +41,7 @@ export default class Register extends React.Component {
           this.setState({
             emailplace: 'Invalid email. Contact admin.'
           })
-        }if(data.valid === true) {
+        } else if(data.valid === true) {
           this.refs.org.value = data.org
         }
       })

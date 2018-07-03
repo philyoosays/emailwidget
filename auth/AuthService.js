@@ -32,10 +32,15 @@ module.exports = {
   validRegistrant(req, res, next) {
     model.findPreAuthUser(req.body.username)
       .then(data => {
-        if(data.length === 0 || data[0].taken === true) {
+        if(data.length === 0) {
           res.json({
             valid: false,
-            taken: data[0].taken
+            taken: false
+          })
+        } else if(data[0].taken === true) {
+          res.json({
+            valid: false,
+            taken: true
           })
         } else {
           res.locals.dataset = {
