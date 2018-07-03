@@ -15,7 +15,7 @@ router.route('/email/:id')
   .post(
     controller.verifySite,
     controller.getOneCampaign,
-    controller.isEnterprise,
+    // controller.isEnterprise,
     controller.updateMessageText,
     controller.makeSendLink,
     resHandler.sendJSON

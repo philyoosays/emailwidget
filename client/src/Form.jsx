@@ -161,7 +161,7 @@ export default class Form extends React.Component {
         if(data.isMobile === true || data.isEnterprise === true) {
           window.location.href = data.sendemail;
         } else {
-          window.open(data.sendemail)
+          window.location.replace(data.sendemail)
           // todo....
           // fix backend fetch maybe axios
           // how do I input regex chars to emails
@@ -174,6 +174,7 @@ export default class Form extends React.Component {
       <div className="formcontainer">
         <section className="header">
           <section className="personname">
+          <div className="element">
             <h3>First Name</h3>
             <input
               type="text"
@@ -183,6 +184,8 @@ export default class Form extends React.Component {
               placeholder="first name"
               onInput={() => {this.handleText()}}
             />
+          </div>
+          <div className="element">
             <h3>Last Name</h3>
             <input
               type="text"
@@ -192,6 +195,7 @@ export default class Form extends React.Component {
               placeholder="last name"
               onInput={() => {this.handleText()}}
             />
+          </div>
           </section>
           <section className="email">
             <div className="personemail">
@@ -221,10 +225,10 @@ export default class Form extends React.Component {
               />
             </div>
           <section className="sendemail">
-            <p
+            <button
               className="emailbutton"
               onClick={() => {this.handleSend()}}
-            >Send Email</p>
+            >Send Email</button>
           </section>
         </div>
       </div>
