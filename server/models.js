@@ -42,7 +42,8 @@ module.exports = {
   findAllCampaigns(org) {
     return db.any(`
       SELECT campaign.*, COUNT(contact.id)
-      FROM campaign JOIN contact
+      FROM campaign
+      LEFT OUTER JOIN contact
       ON campaign.id = contact.campaignid
       GROUP BY campaign.id
       ORDER BY campaign.created DESC

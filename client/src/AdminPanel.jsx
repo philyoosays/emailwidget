@@ -35,10 +35,17 @@ export default class AdminPanel extends React.Component {
       this.state.allcampaigns.map((element, index) => {
         return(
           <article className="campaign" key={index}>
-            <h2>{element.name}</h2>
-            <p>Recipient: {element.recipient}</p>
-            <p>Created: {element.created.slice(0,10)}</p>
-            <p>{element.count} Responses</p>
+            <div className="entry">
+              <h2>{element.name}</h2>
+              <p>Recipient: {element.recipient}</p>
+              <p>Created: {element.created.slice(0,10)}</p>
+              <p>{element.count} Responses</p>
+            </div>
+            <div className="entrybuttons">
+              <div className="entryoption">
+                CSV
+              </div>
+            </div>
             <hr />
           </article>
         );
