@@ -30,10 +30,26 @@ export default class AdminPanel extends React.Component {
           allcampaigns: data
         })
       })
+
+    fetch(`/api/export/campaign/${campaignid}`, {
+      body: JSON.stringify({
+        token: token,
+        secret: process.env.REACT_APP_SECRET
+      }),
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'POST'
+    })
+    .then(response => response.json())
+      .then(data => {
+        let encodedURI =
+      })
   }
 
-  exportCSV() {
-    fetch()
+  exportCSV(campaignid) {
+    let token = TokenService.read();
+
   }
 
   render() {
@@ -50,7 +66,7 @@ export default class AdminPanel extends React.Component {
             <div className="entrybuttons">
               <div
                 className="entryoption"
-                onClick={() => {this.exportCSV()}}>
+                onClick={() => {this.exportCSV(element.id)}}>
                   CSV
               </div>
             </div>

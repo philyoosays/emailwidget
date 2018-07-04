@@ -24,6 +24,21 @@ module.exports = {
       })
   },
 
+  getCampaignContacts(req, res, next) {
+    model.getAllCampaignSigners(parseInt(req.params.campaignid), res.locals.payload.org)
+      .then(data => {
+        res.locals.dataset = data
+        next();
+      })
+  },
+
+  markCampExported(req, res, next) {
+    model.markCampaignExported(parseInt(req.params.campaignid), res.locals.payload.org)
+      .then(data => {
+        next();
+      })
+  }
+
   isEnterprise(req, res, next) {
     console.log('here')
     axios.get(`https://api.trumail.io/v2/lookups/json?email=${req.body.email}&token=${process.env.MAILAPI}`)
@@ -98,7 +113,7 @@ module.exports = {
   getAllCampaigns(req, res, next) {
     model.findAllCampaigns(res.locals.payload.org)
       .then(data => {
-        res.locals.dataset = data;
+        res.locals.dataset.allcampaigns = data;
         next()
       })
       .catch(err => {
@@ -111,6 +126,30 @@ module.exports = {
       .then(data => {
         console.log('data', data)
       })
+  },
+
+  convertToArrays(req, res, next) {
+    let collection = [];
+    collection.push([
+      'dbID', 'fname', 'lname', 'email', 'campname', 'created'
+      ])
+    res.locals.dataset.forEach(contact => {
+      let row = [];
+      row.push(contact.id);
+      row.push(contact.fname);
+      row.push(contact.lname);
+      row.push(contact.email);
+      row.push(contact.campname);
+      row.push(contact.created);
+      collection.push(row);
+    })
+    let csvContent = "data:text/csv;charset=utf-8,";
+    collection.forEach(row => {
+      let csvRow = row.join(',');
+      csvContent += csvRow + '\r\n';
+    })
+    res.locals.dataset = csvContent;
+    next();
   }
 }
 

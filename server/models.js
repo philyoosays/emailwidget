@@ -59,8 +59,23 @@ module.exports = {
       `, data);
   },
 
-  countOfSigners(campaign) {
-    return d
+  markCampaignExported(campaignid, org) {
+    return db.none(`
+      UPDATE contact
+      SET exported = true
+      WHERE campaignid = $1
+      AND org = $2
+      `, [campaignid, org]);
+  },
+
+  getAllCampaignSigners(campaignid, org) {
+    return db.any(`
+      SELECT contact.*, campaign.name AS campname
+      FROM contact JOIN campaign
+      ON contact.campaignid = campaign.id
+      WHERE campaignid = $1
+      AND contact.org = $2
+      `, [campaignid, org])
   }
 }
 

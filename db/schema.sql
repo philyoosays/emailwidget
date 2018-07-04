@@ -49,7 +49,8 @@ CREATE TABLE contact (
   campaignid INTEGER REFERENCES campaign(id),
   org TEXT,
   blocked BOOLEAN DEFAULT false,
-  created TIMESTAMP DEFAULT NOW()
+  created TIMESTAMP DEFAULT NOW(),
+  exported BOOLEAN DEFAULT false
 );
 
 CREATE TABLE block_lexicon (
