@@ -3,7 +3,7 @@ import React from 'react';
 import './CampaignOverview.css';
 
 export default function CampaignOverview(props) {
-  let downloadAllButton = props.todownload === props.element.id ?
+  let downloadAllButton = props.todownloadfull === props.element.id ?
     <a href={props.csv}
       download={`${props.element.created.slice(0,10)}_campaign${props.element.id}_alldata.csv`}
       className="entryoption selected"
@@ -12,7 +12,17 @@ export default function CampaignOverview(props) {
       className="entryoption noselect"
       onClick={() => {props.getfullcsv(props.element.id)}}>
         Get All Contacts
-    </div>
+    </div>;
+  let downloadNewButton = props.todownloadnew === props.element.id ?
+    <a href={props.csv}
+      download={`${props.element.created.slice(0,10)}_campaign${props.element.id}_newdata.csv`}
+      className="entryoption selected"
+    >Download</a> :
+    <div
+      className="entryoption noselect"
+      onClick={() => {props.getnewcsv(props.element.id)}}>
+        Get New Contacts
+    </div>;
   return(
     <article className="campaign" key={props.index}>
       <div className="entry">
@@ -23,6 +33,7 @@ export default function CampaignOverview(props) {
       </div>
       <div className="entrybuttons">
         {downloadAllButton}
+        {downloadNewButton}
       </div>
     </article>
   );

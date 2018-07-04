@@ -45,6 +45,7 @@ module.exports = {
       FROM campaign
       LEFT OUTER JOIN contact
       ON campaign.id = contact.campaignid
+      WHERE campaign.org = $1
       GROUP BY campaign.id
       ORDER BY campaign.created DESC
       `, org);
@@ -68,13 +69,24 @@ module.exports = {
       `, [campaignid, org]);
   },
 
-  getAllCampaignSigners(campaignid, org) {
+  findAllCampaignSigners(campaignid, org) {
     return db.any(`
       SELECT contact.*, campaign.name AS campname
       FROM contact JOIN campaign
       ON contact.campaignid = campaign.id
       WHERE campaignid = $1
       AND contact.org = $2
+      `, [campaignid, org])
+  },
+
+  findNewCampaignContacts(campaignid, org) {
+    return db.any(`
+      SELECT contact.*, campaign.name AS campname
+      FROM contact JOIN campaign
+      ON contact.campaignid = campaign.id
+      WHERE campaignid = $1
+      AND contact.org = $2
+      AND exported = false
       `, [campaignid, org])
   }
 }

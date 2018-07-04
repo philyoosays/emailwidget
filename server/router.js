@@ -5,12 +5,21 @@ const controller = require('./controller');
 const resHandler = require('./resHandler');
 const tokenService = require('../auth/TokenService')
 
-router.route('/export/campaign/:campaignid')
+router.route('/export/campaignfull/:campaignid')
   .post(
     controller.verifySite,
     tokenService.verify,
     controller.getCampaignContacts,
     controller.markCampExported,
+    controller.convertToArrays,
+    resHandler.sendJSON
+  )
+
+router.route('/export/campaignnew/:campaignid')
+  .post(
+    controller.verifySite,
+    tokenService.verify,
+    controller.getNewCampaignContacts,
     controller.convertToArrays,
     resHandler.sendJSON
   )

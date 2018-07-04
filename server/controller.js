@@ -25,9 +25,17 @@ module.exports = {
   },
 
   getCampaignContacts(req, res, next) {
-    model.getAllCampaignSigners(parseInt(req.params.campaignid), res.locals.payload.org)
+    model.findAllCampaignSigners(parseInt(req.params.campaignid), res.locals.payload.org)
       .then(data => {
-        res.locals.dataset = data
+        res.locals.dataset = data;
+        next();
+      })
+  },
+
+  getNewCampaignContacts(req, res, next) {
+    model.findNewCampaignContacts(parseInt(req.params.campaignid), res.locals.payload.org)
+      .then(data => {
+        res.locals.dataset = data;
         next();
       })
   },
@@ -133,16 +141,19 @@ module.exports = {
     collection.push([
       'dbID', 'fname', 'lname', 'email', 'campname', 'created'
       ])
-    res.locals.dataset.forEach(contact => {
-      let row = [];
-      row.push(contact.id);
-      row.push(contact.fname);
-      row.push(contact.lname);
-      row.push(contact.email);
-      row.push(contact.campname);
-      row.push(contact.created);
-      collection.push(row);
-    })
+    if(res.locals.dataset.length > 0) {
+      res.locals.dataset.forEach(contact => {
+        let row = [];
+        row.push(contact.id);
+        row.push(contact.fname);
+        row.push(contact.lname);
+        row.push(contact.email);
+        row.push(contact.campname);
+        row.push(contact.created);
+        collection.push(row);
+      })
+    }
+
     let csvContent = "data:text/csv;charset=utf-8,";
     collection.forEach(row => {
       let csvRow = row.join(',');

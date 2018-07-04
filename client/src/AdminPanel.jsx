@@ -10,11 +10,13 @@ export default class AdminPanel extends React.Component {
     super(props);
     this.state = {
       allcampaigns: [],
-      todownload: 0,
+      todownloadfull: 0,
+      todownloadnew: 0,
       encodedCSV: '',
     }
 
     this.exportFullCSV = this.exportFullCSV.bind(this);
+    this.exportNewCSV = this.exportNewCSV.bind(this);
 
     // This grabs all campaigns associated with the org
     // listed in the token payload
@@ -39,7 +41,7 @@ export default class AdminPanel extends React.Component {
 
   exportFullCSV(campaignid) {
     let token = TokenService.read();
-    fetch(`/api/export/campaign/${campaignid}`, {
+    fetch(`/api/export/campaignfull/${campaignid}`, {
       body: JSON.stringify({
         token: token,
         secret: process.env.REACT_APP_SECRET
@@ -53,9 +55,29 @@ export default class AdminPanel extends React.Component {
       .then(data => {
         this.setState({
           encodedCSV: encodeURI(data),
-          todownload: campaignid
+          todownloadfull: campaignid
         })
+      })
+  }
 
+  exportNewCSV(campaignid) {
+    let token = TokenService.read();
+    fetch(`/api/export/campaignnew/${campaignid}`, {
+      body: JSON.stringify({
+        token: token,
+        secret: process.env.REACT_APP_SECRET
+      }),
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'POST'
+    })
+    .then(response => response.json())
+      .then(data => {
+        this.setState({
+          encodedCSV: encodeURI(data),
+          todownloadnew: campaignid
+        })
       })
   }
 
@@ -68,7 +90,9 @@ export default class AdminPanel extends React.Component {
             index={index}
             csv={this.state.encodedCSV}
             getfullcsv={this.exportFullCSV}
-            todownload={this.state.todownload}
+            getnewcsv={this.exportNewCSV}
+            todownloadfull={this.state.todownloadfull}
+            todownloadnew={this.state.todownloadnew}
           />
         );
       })
