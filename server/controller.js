@@ -37,7 +37,7 @@ module.exports = {
       .then(data => {
         next();
       })
-  }
+  },
 
   isEnterprise(req, res, next) {
     console.log('here')
@@ -113,7 +113,7 @@ module.exports = {
   getAllCampaigns(req, res, next) {
     model.findAllCampaigns(res.locals.payload.org)
       .then(data => {
-        res.locals.dataset.allcampaigns = data;
+        res.locals.dataset = data;
         next()
       })
       .catch(err => {

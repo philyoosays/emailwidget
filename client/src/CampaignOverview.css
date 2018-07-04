@@ -1,0 +1,52 @@
+article.campaign {
+  width: 60%;
+  margin: 0 auto;
+  margin-top: 10px;
+  padding-bottom: 20px;
+  background: #3c80e0;
+  border: 3px solid white;
+  border-radius: 15px;
+  box-shadow: 3px 3px 10px grey;
+}
+
+article.campaign > * {
+  color: white;
+}
+
+div.entry {
+  width: 80%;
+  margin: 0 auto;
+}
+
+div.entry > h2 {
+  font-weight: 300;
+}
+
+.entrybuttons {
+  display: flex;
+  justify-content: center;
+}
+
+.entryoption {
+  width: 130px;
+  height: 20px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+  text-align: center;
+  /*box-shadow: 3px 3px 10px grey;*/
+}
+
+.noselect {
+  border: 1px solid black;
+  background: #888888;
+}
+
+.selected {
+  border: 1px solid white;
+  background: #3c80e0;
+}
+
+div.entrybuttons > a {
+  text-decoration: none;
+}

@@ -24,9 +24,11 @@ section.logincontainer {
 
 .username, .password {
   width: 150px;
+  padding-left: 8px;
 }
 
 section.sendemail {
   margin: 0;
 }
+
 

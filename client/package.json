@@ -16,5 +16,5 @@
     "eject": "react-scripts eject",
     "clean": "rm -rf dist && rm -rf node_modules"
   },
-  "proxy": "http://127.0.0.1:3001"
+  "proxy": "http://localhost:3001"
 }
