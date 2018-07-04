@@ -2,6 +2,7 @@ import React from 'react';
 
 import TokenService from './TokenService';
 import CampaignOverview from './CampaignOverview';
+import AdminNav from './AdminNav';
 
 import './AdminPanel.css'
 
@@ -17,10 +18,16 @@ export default class AdminPanel extends React.Component {
 
     this.exportFullCSV = this.exportFullCSV.bind(this);
     this.exportNewCSV = this.exportNewCSV.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
 
     // This grabs all campaigns associated with the org
     // listed in the token payload
     let token = TokenService.read();
+
+    if(token === null) {
+      window.location.replace('/cpanel/admin')
+    }
+
     fetch('/api/organization', {
       body: JSON.stringify({
         token: token,
@@ -37,6 +44,12 @@ export default class AdminPanel extends React.Component {
           allcampaigns: data
         })
       })
+  }
+
+  handleLogout() {
+    console.log('happening')
+    TokenService.destroy()
+    window.location.replace('/cpanel/admin')
   }
 
   exportFullCSV(campaignid) {
@@ -98,6 +111,8 @@ export default class AdminPanel extends React.Component {
       })
     return(
       <section>
+        <AdminNav handleLogout={this.handleLogout}/>
+        <div className="navspacer" />
         {campaigns}
       </section>
     );

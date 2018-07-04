@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import TokenService from './TokenService';
+// import TokenService from './TokenService';
 import Form from './Form';
 import Test from './Test';
 import Login from './Login';
@@ -14,12 +14,6 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {}
-    this.handleLogout = this.handleLogout.bind(this);
-  }
-
-  handleLogout() {
-    TokenService.destroy()
-    window.location.replace('/cpanel/admin')
   }
 
   render() {
@@ -32,6 +26,10 @@ class App extends React.Component {
           <Route
             path="/cpanel/register/admin"
             component={Register}
+          />
+          <Route
+            path="/cpanel/admin/download"
+            component={AdminPanel}
           />
           <Route
             path="/cpanel/admin/panel"

@@ -1,0 +1,23 @@
+section.adminnavbar {
+  width: 100vw;
+  height: 40px;
+  position: fixed;
+  top: 0px;
+  background: #3c80e0;
+  box-shadow: 3px 3px 10px black;
+/*  display: flex;
+  justify-content: right;*/
+}
+
+button.adminnavbutton {
+  cursor: pointer;
+  float: right;
+/*  width: 125px;*/
+  height: 25px;
+  background: white;
+  color: black;
+  font-weight: 300;
+  font-size: 13px;
+  margin: 7px 10px;
+  border-radius: 5px;
+}
