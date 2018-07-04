@@ -11,6 +11,8 @@ export default class AdminPanel extends React.Component {
       allcampaigns: []
     }
 
+    this.exportCSV = this.exportCSV.bind(this);
+
     let token = TokenService.read();
     fetch('/api/organization', {
       body: JSON.stringify({
@@ -30,6 +32,10 @@ export default class AdminPanel extends React.Component {
       })
   }
 
+  exportCSV() {
+    fetch()
+  }
+
   render() {
     let campaigns = this.state.allcampaigns.length === 0 ? '' :
       this.state.allcampaigns.map((element, index) => {
@@ -42,8 +48,10 @@ export default class AdminPanel extends React.Component {
               <p>{element.count} Responses</p>
             </div>
             <div className="entrybuttons">
-              <div className="entryoption">
-                CSV
+              <div
+                className="entryoption"
+                onClick={() => {this.exportCSV()}}>
+                  CSV
               </div>
             </div>
             <hr />
