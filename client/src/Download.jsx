@@ -1,5 +1,7 @@
 import React from 'react';
 
+import AdminNav from './AdminNav'
+
 export default class Download extends React.Component {
   constructor(props) {
     super(props);
@@ -8,7 +10,7 @@ export default class Download extends React.Component {
 
   render() {
     return(
-
+      <AdminNav handleLogout={this.props.handleLogout}/>
     );
   }
 }

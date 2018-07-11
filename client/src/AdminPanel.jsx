@@ -18,7 +18,6 @@ export default class AdminPanel extends React.Component {
 
     this.exportFullCSV = this.exportFullCSV.bind(this);
     this.exportNewCSV = this.exportNewCSV.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
 
     // This grabs all campaigns associated with the org
     // listed in the token payload
@@ -44,12 +43,6 @@ export default class AdminPanel extends React.Component {
           allcampaigns: data
         })
       })
-  }
-
-  handleLogout() {
-    console.log('happening')
-    TokenService.destroy()
-    window.location.replace('/cpanel/admin')
   }
 
   exportFullCSV(campaignid) {
@@ -111,7 +104,7 @@ export default class AdminPanel extends React.Component {
       })
     return(
       <section>
-        <AdminNav handleLogout={this.handleLogout}/>
+        <AdminNav handleLogout={this.props.handleLogout}/>
         <div className="navspacer" />
         {campaigns}
       </section>

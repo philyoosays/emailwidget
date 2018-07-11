@@ -11,6 +11,7 @@ export default function AdminNav(props) {
       >Logout</button>
       <button
         className="adminnavbutton"
+
       >Download Query</button>
     </section>
   );

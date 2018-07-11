@@ -161,10 +161,7 @@ export default class Form extends React.Component {
         if(data.isMobile === true || data.isEnterprise === true) {
           window.location.href = data.sendemail;
         } else {
-          window.location.replace(data.sendemail)
-          // todo....
-          // fix backend fetch maybe axios
-          // how do I input regex chars to emails
+          window.location.replace(data.sendemail);
         }
       })
   }

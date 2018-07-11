@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const model = require('../server/models');
 const TokenService = require('./TokenService');
 
-
+// build an option to have the user change the colors of the form
 
 module.exports = {
   async isValidUser(req, res, next) {
@@ -82,7 +82,6 @@ module.exports = {
       .catch(err => {
         next(err);
       })
-
   },
 
   registerUser(req, res, next) {
