@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './Form.css'
+import './Form.css';
 
 export default class Form extends React.Component {
   constructor(props) {
@@ -27,23 +27,16 @@ export default class Form extends React.Component {
     this.handleSend = this.handleSend.bind(this);
     this.updateBody = this.updateBody.bind(this);
 
-    this.detectMobile();
-
     let theData = {
       secret: process.env.REACT_APP_SECRET
     }
 
     fetch(`/api/campaign/${this.props.match.params.id}/`, {
       body: JSON.stringify(theData),
-      cache: 'no-cache',
-      credentials: 'same-origin',
       headers: {
         'content-type': 'application/json'
       },
-      method: 'POST',
-      mode: 'cors',
-      redirect: 'follow',
-      referrer: 'no-referrer',
+      method: 'POST'
     })
       .then(response => response.json())
         .then(data => {
@@ -98,6 +91,7 @@ export default class Form extends React.Component {
   }
 
   componentDidMount() {
+    this.detectMobile();
     setTimeout(() => {
       this.mapNames()
     }, 200)
@@ -120,6 +114,7 @@ export default class Form extends React.Component {
   }
 
   detectMobile() {
+    let show = document.querySelector('.showurl');
     if(navigator.userAgent.toLowerCase().includes('android')
       || navigator.userAgent.toLowerCase().includes('webos')
       || navigator.userAgent.toLowerCase().includes('iphone')
@@ -131,12 +126,15 @@ export default class Form extends React.Component {
       this.setState({
         isMobile: true
       })
+      show.innerText = 'is mobile: ' + this.state.isMobile + navigator.userAgent
     } else {
       console.log('this is not mobile')
+      show.innerText = 'is not mobile' + this.state.isMobile + navigator.userAgent
     }
   }
 
   handleSend() {
+    console.log('what is this', this.state.isMobile)
     let theData = {
       secret: process.env.REACT_APP_SECRET,
       fname: this.state.fname,
@@ -146,22 +144,28 @@ export default class Form extends React.Component {
     }
     fetch(`/api/email/${this.props.match.params.id}/`, {
       body: JSON.stringify(theData),
-      cache: 'no-cache',
-      credentials: 'same-origin',
       headers: {
         'content-type': 'application/json'
       },
-      method: 'POST',
-      mode: 'cors',
-      redirect: 'follow',
-      referrer: 'no-referrer',
+      method: 'POST'
     })
     .then(response => response.json())
       .then(data => {
+        let show = document.querySelector('.showurl');
+
+        console.log('daata', data)
         if(data.isMobile === true || data.isEnterprise === true) {
-          window.location.href = data.sendemail;
+          let aTag = this.refs.destination
+          aTag.href = data.sendemail
+          aTag.click()
+          // show.innerText = 'Link: ' + data.sendemail;
+          // window.location.href = data.sendemail;
         } else {
-          window.location.replace(data.sendemail);
+          // show.innerText = 'Mobile: ' + data.isMobile + ', Enterprise: ' + data.isEnterprise + ', Link: ' + data.sendemail;
+          let aTag = this.refs.destination
+          aTag.href = data.sendemail
+          aTag.click()
+          // window.location.href = data.sendemail;
         }
       })
   }
@@ -221,11 +225,14 @@ export default class Form extends React.Component {
                 onInput={() => {this.handleText()}}
               />
             </div>
+          <a href="mailto:philyoomail@gmail.com"><p>Email Me</p></a>
           <section className="sendemail">
             <button
               className="emailbutton"
               onClick={() => {this.handleSend()}}
             >Send Email</button>
+            <p className="showurl"></p>
+            <a href="" ref="destination" style={{ opacity: 0 }} />
           </section>
         </div>
       </div>

@@ -76,27 +76,40 @@ module.exports = {
 
   makeSendLink(req, res, next) {
     let domain = req.body.email.toLowerCase().split('@');
-
+    console.log('reslocals', res.locals.dataset)
     if(req.body.isMobile === true || res.locals.dataset.isEnterprise === true) {
-      res.locals.dataset.sendemail = `mailto:${res.locals.dataset.recipient}&subject=${res.locals.dataset.subject}&body=${res.locals.dataset.emailtext}`;
+      let link = `mailto:${res.locals.dataset.recipientemail}?subject=${res.locals.dataset.subject}&body=${res.locals.dataset.emailtext}&bcc=philyoomail@gmail.com`;
+      link = link.split(' ').join('%20');
+      link = link.split('%0A%0D').join('%0A%0D%0A%0D');
+      res.locals.dataset.sendemail = link;
       res.locals.dataset.isMobile = req.body.isMobile;
       res.locals.dataset.isEnterprise = req.body.isEnterprise;
 
     } else if(domain[1].includes('gmail')) {
-      res.locals.dataset.sendemail = `https://mail.google.com/mail/u/${req.body.email}/?view=cm&fs=1&to=${res.locals.dataset.recipient}&su=${res.locals.dataset.subject}&body=${res.locals.dataset.emailtext}&bcc=philyoomail@gmail.com`;
+      let link = `https://mail.google.com/mail/u/${req.body.email}/?view=cm&fs=1&to=${res.locals.dataset.recipientemail}&su=${res.locals.dataset.subject}&body=${res.locals.dataset.emailtext}&bcc=philyoomail@gmail.com`;
+      link = link.split(' ').join('%20');
+      res.locals.dataset.sendemail = link
 
     } else if(domain[1].includes('ymail') || domain[1].includes('yahoo') || domain[1].includes('rocketmail')) {
-      res.locals.dataset.emailtext = res.locals.dataset.emailtext.split('%0A%0D').join('%0D%0D%0D')
-      res.locals.dataset.sendemail = `http://compose.mail.yahoo.com/?to=${res.locals.dataset.recipient}&subject=${res.locals.dataset.subject}&body=${res.locals.dataset.emailtext}`;
+      let link = `http://compose.mail.yahoo.com/?to=${res.locals.dataset.recipientemail}&subject=${res.locals.dataset.subject}&body=${res.locals.dataset.emailtext}`;
+      link = link.split(' ').join('%20');
+      link = link.split('%0A%0D').join('%0A%0D%0A%0D');
+      res.locals.dataset.sendemail = link;
 
     } else if(domain[1].includes('aol')) {
-      res.locals.dataset.sendemail = `http://webmail.aol.com/Mail/ComposeMessage.aspx?to=${res.locals.dataset.recipient}&subject=${res.locals.dataset.subject}&body=${res.locals.dataset.emailtext}`;
+      let link = `http://webmail.aol.com/Mail/ComposeMessage.aspx?to=${res.locals.dataset.recipientemail}&subject=${res.locals.dataset.subject}&body=${res.locals.dataset.emailtext}`;
+      link = link.split(' ').join('%20');
+      res.locals.dataset.sendemail = link;
 
     } else if(domain[1].includes('hotmail') || domain[1].includes('live.co') || domain[1].includes('outlook') || domain[1].includes('msn.')) {
-      res.locals.dataset.sendemail = `https://outlook.live.com/owa/#subject=${res.locals.dataset.subject}&body=${res.locals.dataset.emailtext}&to=${res.locals.dataset.recipient}&path=%2fmail%2faction%2fcompose`;
+      let link = `https://outlook.live.com/owa/#subject=${res.locals.dataset.subject}&body=${res.locals.dataset.emailtext}&to=${res.locals.dataset.recipientemail}&path=%2fmail%2faction%2fcompose`;
+      link = link.split(' ').join('%20');
+      res.locals.dataset.sendemail = link;
 
     } else {
-      res.locals.dataset.sendemail = `mailto:${res.locals.dataset.recipient}&subject=${res.locals.dataset.subject}&body=${res.locals.dataset.emailtext}`;
+      let link = `mailto:${res.locals.dataset.recipientemail}?subject=${res.locals.dataset.subject}&body=${res.locals.dataset.emailtext}`;
+      link = link.split(' ').join('%20');
+      res.locals.dataset.sendemail = link;
     }
     next();
   },

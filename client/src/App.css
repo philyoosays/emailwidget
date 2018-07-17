@@ -1,3 +1,14 @@
 body {
   background: whitesmoke;
 }
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  appearance: none;
+  -o-appearance: none;
+  -ms-appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border-radius: 0px;
+}
